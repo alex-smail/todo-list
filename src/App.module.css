@@ -1,42 +1,78 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.app {
+	display: flex;
+	margin: auto;
+	flex-direction: column;
+	align-items: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.headerDsc {
+	display: flex;
+	background-color: #242424;
+	position: sticky;
+	top: 0;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.dsc {
+	display: flex;
+	width: 540px;
+	justify-content: space-between;
+	font-size: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.ulContainer {
+	padding: 0;
+	width: 650px;
 }
 
-.card {
-  padding: 2em;
+.liContainer {
+	justify-content: space-between;
+	/* list-style-type: none; */
+	margin: 5px 0;
+	border-radius: 8px;
+	padding: 0;
 }
 
-.read-the-docs {
-  color: #888;
+.red {
+	background: linear-gradient(
+		to right,
+		transparent 60%,
+		rgba(199, 50, 50, 0.5) 85%,
+		rgb(199, 50, 50) 100%
+	);
+}
+
+.green {
+	background: linear-gradient(
+		to right,
+		transparent 60%,
+		rgba(50, 199, 97, 0.5) 85%,
+		rgb(50, 199, 97) 100%
+	);
+}
+
+.loader {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background: radial-gradient(farthest-side, #8f44fd 94%, #0000) top/6px 6px
+			no-repeat,
+		conic-gradient(#0000 30%, #8f44fd);
+	-webkit-mask: radial-gradient(
+		farthest-side,
+		#0000 calc(100% - 6px),
+		#000 0
+	);
+	animation: loader 1s infinite linear;
+}
+
+@keyframes loader {
+	100% {
+		transform: rotate(1turn);
+	}
 }

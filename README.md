@@ -1,8 +1,14 @@
-# React + Vite
+# Todo List
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Ветка main
+* содержание одного дела — небольшой текст
+* используется JSON Placeholder с ручкой (endpoint) «todos»
+* реализован только вывод списка
 
-Currently, two official plugins are available:
+## Ветка json-server
+* реализована возможность добавлять, изменять и удалять дела
+* реализован поиск дел по заданной фразе (для нахождения элемента в тексте дела должен быть совпадающий с введенной фразой фрагмент);
+* реализована кнопка для включения режима сортировки дел по алфавиту
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Ветка firebase
+* приложение из второго пункта, но с использованием Firebase (без использования JSON Server)
