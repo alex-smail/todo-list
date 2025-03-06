@@ -1,30 +1,25 @@
 import { useState } from 'react';
-import { TODOS_URL } from '../constants';
+import { ref, push } from 'firebase/database';
+import { db } from '../firebase';
 
-export const useRequestAddTodos = (value, setValue, setTodos) => {
+export const useRequestAddTodos = (value, setValue) => {
 	const [isModalOpen, setIsModalOpen] = useState(false); // открытие модального окна для добавления задачи
 
-	const requestAddTodos = () => {
+	const requestAddTodos = async () => {
 		setIsModalOpen(true);
+		try {
+			const todosDbRef = ref(db, 'todos');
 
-		fetch(TODOS_URL, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json;charset=utf-8' },
-			body: JSON.stringify({
+			await push(todosDbRef, {
 				title: value.trim(),
-				id: Date.now(),
-			}),
-		})
-			.then((rawResponse) => rawResponse.json())
-			.then((newTodos) => {
-				console.log('Задача добавлена, ответ сервера:', newTodos);
-				setTodos((prevTodos) => [...prevTodos, newTodos]); // Обновляем список задач
-			})
-			.catch((error) => console.error('Ошибка добавления задачи:', error))
-			.finally(() => {
-				setValue(''); // Делаем поле обратно пустым
-				setIsModalOpen(false);
 			});
+			console.log('Задача добавлена, ответ сервера:', todosDbRef);
+		} catch (error) {
+			console.error('Ошибка добавления задачи:', error);
+		} finally {
+			setValue(''); // Делаем поле обратно пустым
+			setIsModalOpen(false);
+		}
 	};
 
 	return { isModalOpen, setIsModalOpen, requestAddTodos };

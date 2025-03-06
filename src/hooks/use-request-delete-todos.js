@@ -1,18 +1,21 @@
 import { useState } from 'react';
-import { TODOS_URL } from '../constants';
+import { ref, remove } from 'firebase/database';
+import { db } from '../firebase';
 
-export const useRequestDeleteTodos = (setTodos) => {
+export const useRequestDeleteTodos = () => {
 	const [isDeleting, setIsDeleting] = useState(false);
 
-	const requestDeleteTodos = (id) => {
+	const requestDeleteTodos = async (id) => {
 		setIsDeleting(true);
 
-		fetch(`${TODOS_URL}/${id}`, {
-			method: 'DELETE',
-		})
-			.then(() => { setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id) ); })
-			.catch((error) => console.error('Ошибка удаления задачи:', error))
-			.finally(() => setIsDeleting(false));
+		try {
+			const todosDbRef = ref(db, `todos/${id}`);
+			await remove(todosDbRef);
+		} catch (error) {
+			console.error('Ошибка удаления задачи:', error)
+		} finally {
+			setIsDeleting(false)
+		}
 	};
 
 	return { requestDeleteTodos, isDeleting };

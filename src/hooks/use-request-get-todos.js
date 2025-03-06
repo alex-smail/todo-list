@@ -1,29 +1,34 @@
 import { useState, useEffect } from 'react';
-import { TODOS_URL } from '../constants';
+import { ref, onValue } from 'firebase/database';
+import { db } from '../firebase';
 
-export const useRequestGetTodos = (setFilteredTodos) => {
-	const [todos, setTodos] = useState([]);
-	const [isLoading, setIsLoading] = useState(false); // лоадер
+export const useRequestGetTodos = () => {
+  const [todos, setTodos] = useState([]); // Все задачи
+  const [filteredTodos, setFilteredTodos] = useState([]); // Отфильтрованные задачи
+  const [isLoading, setIsLoading] = useState(true);
 
-	useEffect(() => {
-		setIsLoading(true);
+  useEffect(() => {
+    const todosDbRef = ref(db, 'todos');
 
-		fetch(TODOS_URL)
-			.then((loadedTodos) => {
-				if (!loadedTodos.ok)
-					throw new Error('Ошибка в получении данных о задачах');
+    const unsubscribe = onValue(todosDbRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        // Преобразуем объект в массив
+        const todosArray = Object.entries(data).map(([id, todo]) => ({
+          id,
+          ...todo,
+        }));
+        setTodos(todosArray);
+        setFilteredTodos(todosArray);
+      } else {
+        setTodos([]);
+        setFilteredTodos([]);
+      }
+      setIsLoading(false);
+    });
 
-				return loadedTodos.json();
-			})
-			.then((todoList) => {
-				setTodos(todoList);
-				setFilteredTodos(todoList)
-			})
-			.catch((error) => {
-				console.error('Ошибка при загрузке данных:', error);
-			})
-			.finally(() => setIsLoading(false));
-	}, []);
+    return () => unsubscribe();
+  }, []);
 
-	return { todos, setTodos, isLoading };
+  return { todos, filteredTodos, isLoading, setFilteredTodos };
 };

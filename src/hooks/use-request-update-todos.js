@@ -1,30 +1,23 @@
 import { useState } from 'react';
-import { TODOS_URL } from '../constants';
+import { ref, set } from 'firebase/database';
+import { db } from '../firebase';
 
-export const useRequestUpdateTodos = (setTodos, value) => {
+export const useRequestUpdateTodos = (value) => {
 	const [isUpdating, setIsUpdating] = useState(false);
 
-	const requestUpdateTodos = (id) => {
+	const requestUpdateTodos = async (id) => {
 		setIsUpdating(true);
+		try {
+			const todosDbRef = ref(db, `todos/${id}`);
 
-		fetch(`${TODOS_URL}/${id}`, {
-			method: 'PUT',
-			headers: { 'Content-Type': 'application/json;charset=utf-8' },
-			body: JSON.stringify({
+			await set(todosDbRef, {
 				title: value.trim(),
-				id: id,
-			}),
-		})
-			.then((rawResponse) => rawResponse.json())
-			.then((updatedTodos) => {
-				setTodos((prevTodos) =>
-					prevTodos.map((todo) =>
-						todo.id === updatedTodos.id ? updatedTodos : todo
-					)
-				);
-			})
-			.catch((error) => console.error('Ошибка обновления задачи:', error))
-			.finally(() => setIsUpdating(false));
+			});
+		} catch (error) {
+			console.error('Ошибка обновления задачи:', error);
+		} finally {
+			setIsUpdating(false);
+		}
 	};
 
 	return { requestUpdateTodos, isUpdating };

@@ -1,24 +1,22 @@
-import { useState, useEffect } from 'react';
-import { useDebounce } from './use-debounce';
+import { useState } from 'react';
 
 export const useSearch = (setFilteredTodos, todos) => {
-	const [searchValue, setSearchValue] = useState(''); // Текущее значение поля ввода
-	const debouncedSearchTerm = useDebounce(searchValue, 400);
+  const [searchValue, setSearchValue] = useState('');
 
-	useEffect(() => {
-		if (debouncedSearchTerm.trim() === '') {
-			// Если поле пустое, возвращаем все задачи
-			setFilteredTodos(todos);
-		} else {
-			// Фильтруем задачи по title
-			const filtered = todos.filter((todo) =>
-				todo.title
-					.toLowerCase()
-					.includes(debouncedSearchTerm.toLowerCase())
-			);
-			setFilteredTodos(filtered);
-		}
-	}, [debouncedSearchTerm, todos, setFilteredTodos]);
+  const handleSearch = (query) => {
+    setSearchValue(query); // Обновляем состояние searchValue
 
-	return { searchValue, setSearchValue };
+    if (!query.trim()) {
+      // Если строка поиска пустая, возвращаем все задачи
+      setFilteredTodos(todos);
+    } else {
+      // Фильтруем задачи по title
+      const filtered = todos.filter((todo) =>
+        todo.title.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredTodos(filtered);
+    }
+  };
+
+  return { searchValue, setSearchValue: handleSearch };
 };
