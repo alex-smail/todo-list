@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { TODOS_URL } from '../constants';
 
-export const useRequestUpdateTodos = (setTodos, value) => {
+export const useRequestUpdateTodos = (setTodos) => {
 	const [isUpdating, setIsUpdating] = useState(false);
 
-	const requestUpdateTodos = (id) => {
+	const requestUpdateTodos = (id, value) => {
 		setIsUpdating(true);
 
 		fetch(`${TODOS_URL}/${id}`, {

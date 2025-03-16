@@ -19,13 +19,15 @@
 }
 
 .update {
-    height: 25px;
+	height: 30px;
     padding: 0;
-	margin-right: 5px;
-	margin: 0;
-	border: 1px solid #4472fd96;
-	padding-left: 5px;
-	margin-top: 1px;
+    margin-right: 5px;
+    margin: 0;
+    border: 1px solid #4472fd96;
+    padding-left: 5px;
+    margin-top: 1px;
+    width: 600px;
+    font-size: 15px;
 }
 
 .update::placeholder {
