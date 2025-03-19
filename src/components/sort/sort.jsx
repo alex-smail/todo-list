@@ -1,7 +1,11 @@
-/* eslint-disable react/prop-types */
+import { useContext } from 'react';
 import { Button } from '../button/button';
+import { AppContext } from '../../providers/TodoProvider';
 
-export const Sort = ({ todos, setFilteredTodos, isSorted, setIsSorted }) => {
+export const Sort = () => {
+	const { todos, setFilteredTodos, isSorted, setIsSorted } =
+		useContext(AppContext);
+
 	const handleSort = () => {
 		if (!isSorted) {
 			const sorted = [...todos].sort((a, b) => {
@@ -23,7 +27,7 @@ export const Sort = ({ todos, setFilteredTodos, isSorted, setIsSorted }) => {
 			setIsSorted(false);
 		}
 	};
-	
+
 	return (
 		<Button style="filter" onClick={handleSort}>
 			A &#8594; z

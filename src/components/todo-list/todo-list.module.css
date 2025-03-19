@@ -1,0 +1,28 @@
+.ulContainer {
+	padding: 0;
+	width: 650px;
+}
+
+.liContainer {
+	display: flex;
+	justify-content: space-between;
+	margin: 5px 0;
+	border-radius: 8px;
+	padding: 2px;
+	align-items: center;
+	padding-left: 5px;
+}
+
+.liContainer:hover {
+	box-shadow: 0px 0px 5px 0 #02020296;
+}
+
+.changesBlock {
+	display: flex;
+	align-items: center;
+}
+
+.edit {
+	display: flex;
+	align-items: center;
+}

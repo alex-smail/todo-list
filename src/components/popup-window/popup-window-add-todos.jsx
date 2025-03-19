@@ -1,14 +1,13 @@
-/* eslint-disable react/prop-types */
+import { useContext } from 'react';
 import { Button } from '../button/button';
 import { Input } from '../input/input';
 import styles from './popup-window-add-todos.module.css';
+import { AppContext } from '../../providers/TodoProvider';
 
-export const PopupWindowAddTodos = ({
-	setIsModalOpen,
-	value,
-	setValue,
-	requestAddTodos,
-}) => {
+export const PopupWindowAddTodos = () => {
+	const { setIsModalOpen, value, setValue, addTodos } =
+		useContext(AppContext);
+
 	return (
 		<>
 			<div className={styles.opacity}></div>
@@ -19,7 +18,7 @@ export const PopupWindowAddTodos = ({
 					value={value}
 					onChange={({ target }) => setValue(target.value)}
 				/>
-				<Button onClick={() => requestAddTodos(value, setValue)}>
+				<Button onClick={() => addTodos(value, setValue)}>
 					Добавить
 				</Button>
 				<Button style="close" onClick={() => setIsModalOpen(false)}>
