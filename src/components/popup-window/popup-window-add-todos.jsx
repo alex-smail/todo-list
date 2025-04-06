@@ -1,12 +1,17 @@
-import { useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '../button/button';
 import { Input } from '../input/input';
 import styles from './popup-window-add-todos.module.css';
-import { AppContext } from '../../providers/TodoProvider';
+import {
+	addTodosAsync,
+	selectValue,
+	setIsModalOpen,
+	setValue,
+} from '../../store';
 
 export const PopupWindowAddTodos = () => {
-	const { setIsModalOpen, value, setValue, addTodos } =
-		useContext(AppContext);
+	const dispatch = useDispatch();
+	const value = useSelector(selectValue);
 
 	return (
 		<>
@@ -16,12 +21,15 @@ export const PopupWindowAddTodos = () => {
 				<Input
 					placeholder="Введите название задачи"
 					value={value}
-					onChange={({ target }) => setValue(target.value)}
+					onChange={({ target }) => dispatch(setValue(target.value))}
 				/>
-				<Button onClick={() => addTodos(value, setValue)}>
+				<Button onClick={() => dispatch(addTodosAsync(value))}>
 					Добавить
 				</Button>
-				<Button style="close" onClick={() => setIsModalOpen(false)}>
+				<Button
+					style="close"
+					onClick={() => dispatch(setIsModalOpen(false))}
+				>
 					╳
 				</Button>
 			</div>

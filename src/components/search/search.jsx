@@ -1,17 +1,18 @@
-/* eslint-disable react/prop-types */
-import { useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Input } from '../input/input';
-import { AppContext } from '../../providers/TodoProvider';
+import { selectSearchValue, setSearchValue } from '../../store';
 
 export const Search = () => {
-	const { searchValue, setSearchValue } = useContext(AppContext);
+	const dispatch = useDispatch();
+	const searchValue = useSelector(selectSearchValue);
+
 	return (
 		<Input
 			style="search"
 			type="text"
 			placeholder="🔍 Поиск"
 			value={searchValue}
-			onChange={({ target }) => setSearchValue(target.value)}
+			onChange={({ target }) => dispatch(setSearchValue(target.value))}
 		/>
 	);
 };

@@ -1,10 +1,17 @@
-import { useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '../button/button';
-import { AppContext } from '../../providers/TodoProvider';
+import {
+	selectIsSorted,
+	selectTodos,
+	setFilteredTodos,
+	setIsSorted,
+} from '../../store';
 
 export const Sort = () => {
-	const { todos, setFilteredTodos, isSorted, setIsSorted } =
-		useContext(AppContext);
+	const dispatch = useDispatch();
+
+	const isSorted = useSelector(selectIsSorted);
+	const todos = useSelector(selectTodos);
 
 	const handleSort = () => {
 		if (!isSorted) {
@@ -19,12 +26,11 @@ export const Sort = () => {
 				}
 				return 0;
 			});
-
-			setFilteredTodos(sorted);
-			setIsSorted(true);
+			dispatch(setFilteredTodos(sorted));
+			dispatch(setIsSorted(true));
 		} else {
-			setFilteredTodos(todos);
-			setIsSorted(false);
+			dispatch(setFilteredTodos(todos));
+			dispatch(setIsSorted(false));
 		}
 	};
 
