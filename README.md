@@ -22,3 +22,6 @@
 ## Ветка react-context
 * используется React Context
 * без useReducer() и flux-подхода
+
+## Ветка react-redux
+* используется ”redux”, “react-redux” и “redux-thunk”
